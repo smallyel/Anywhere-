@@ -65,7 +65,7 @@ abstract class BaseTileService : TileService() {
     }
 
     if (id?.isNotEmpty() == true) {
-      startActivityAndCollapse(intent)
+      startActivity(intent)
     }
     qsTile?.updateTile()
   }
