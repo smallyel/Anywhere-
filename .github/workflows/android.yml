@@ -70,12 +70,12 @@ jobs:
       - name: Get apk info
         if: success() && github.event_name != 'pull_request' && github.repository == 'smallyel/Anywhere-'
         id: apk-info
-        uses: smallyel/apk-info-action@1.1.2
+        uses: zhaobozhen/apk-info-action@1.1.2
         with:
           apk-path: ${{ steps.sign.outputs.signedReleaseFile }}
       - name: Upload mappings with App Center CLI
         if: success() && github.event_name != 'pull_request' && github.repository == 'smallyel/Anywhere-'
-        uses: smallyel/AppCenter-Github-Action@1.0.1
+        uses: zhaobozhen/AppCenter-Github-Action@1.0.1
         with:
           command: appcenter crashes upload-mappings --mapping app/build/outputs/mapping/release/mapping.txt --version-name ${{ steps.apk-info.outputs.version-name }} --version-code ${{ steps.apk-info.outputs.version-code }} --app smallyel2025-gmail.com/Anywhere
           token: ${{secrets.APP_CENTER_TOKEN}}
