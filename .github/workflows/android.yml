@@ -44,7 +44,7 @@ jobs:
       - name: Build with Gradle
         run: bash ./gradlew -PappVerName=${{ env.VERSION }} assembleRelease
       - name: Sign Android release
-        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
+        if: success() && github.event_name != 'pull_request' && github.repository == 'smallyel/Anywhere-'
         id: sign
         uses: r0adkll/sign-android-release@v1.0.4
         env:
@@ -56,7 +56,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
       - name: Upload built apk
-        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
+        if: success() && github.event_name != 'pull_request' && github.repository == 'smallyel/Anywhere-'
         uses: actions/upload-artifact@v3
         with:
           name: snapshot
@@ -68,19 +68,19 @@ jobs:
           name: mappings
           path: "app/build/outputs/mapping/release"
       - name: Get apk info
-        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
+        if: success() && github.event_name != 'pull_request' && github.repository == 'smallyel/Anywhere-'
         id: apk-info
-        uses: zhaobozhen/apk-info-action@1.1.2
+        uses: smallyel/apk-info-action@1.1.2
         with:
           apk-path: ${{ steps.sign.outputs.signedReleaseFile }}
       - name: Upload mappings with App Center CLI
-        if: success() && github.event_name != 'pull_request' && github.repository == 'zhaobozhen/Anywhere-'
-        uses: zhaobozhen/AppCenter-Github-Action@1.0.1
+        if: success() && github.event_name != 'pull_request' && github.repository == 'smallyel/Anywhere-'
+        uses: smallyel/AppCenter-Github-Action@1.0.1
         with:
-          command: appcenter crashes upload-mappings --mapping app/build/outputs/mapping/release/mapping.txt --version-name ${{ steps.apk-info.outputs.version-name }} --version-code ${{ steps.apk-info.outputs.version-code }} --app zhaobozhen2025-gmail.com/Anywhere
+          command: appcenter crashes upload-mappings --mapping app/build/outputs/mapping/release/mapping.txt --version-name ${{ steps.apk-info.outputs.version-name }} --version-code ${{ steps.apk-info.outputs.version-code }} --app smallyel2025-gmail.com/Anywhere
           token: ${{secrets.APP_CENTER_TOKEN}}
       - name: Send commit to telegram
-        if: success() && github.repository == 'zhaobozhen/Anywhere-' && github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+        if: success() && github.repository == 'smallyel/Anywhere-' && github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
         env:
           CHANNEL_ID: ${{ secrets.TELEGRAM_TO }}
           BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
